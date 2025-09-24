@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 50px;
+            background-color: lightgray;
+        }
+        
+        table {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid black;
+        }
+        
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+        
+        select {
+            padding: 5px;
+            margin: 5px;
+        }
+        
+        #submitBtn {
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculator</h1>
+    
+    <table>
+        <tr>
+            <td>Left Number:</td>
+            <td><input type="text" id="left"></td>
+        </tr>
+        <tr>
+            <td>Operator:</td>
+            <td>
+                <select id="operator">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                    <option value="%">%</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Right Number:</td>
+            <td><input type="text" id="right"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Try me!" id="submitBtn"></td>
+        </tr>
+    </table>
+
+    <script>
+        $(function() {
+            var $leftInput = $('#left');
+            var $rightInput = $('#right');
+            var $operatorSelect = $('#operator');
+            var $submitBtn = $('#submitBtn');
+            
+            var operations = $.extend({}, {
+                '+': function(a, b) { return a + b; },
+                '-': function(a, b) { return a - b; },
+                '*': function(a, b) { return a * b; },
+                '/': function(a, b) { return a / b; },
+                '%': function(a, b) { return a % b; }
+            });
+            
+            $submitBtn.data('operations', operations);
+            
+            function validateInputs($left, $right) {
+                var leftVal = parseInt($left.val());
+                var rightVal = parseInt($right.val());
+                
+                return !$.grep([leftVal, rightVal], function(val) {
+                    return isNaN(val) || val < 0;
+                }).length ? { left: leftVal, right: rightVal } : null;
+            }
+            
+            function showError(message) {
+                $(window).queue(function() {
+                    alert(message);
+                    console.log(message);
+                    $(this).dequeue();
+                });
+            }
+            
+            function showResult(result) {
+                $(window).queue(function() {
+                    alert('Result: ' + result);
+                    console.log('Result: ' + result);
+                    $(this).dequeue();
+                });
+            }
+            
+            function calculate() {
+                var validatedInputs = validateInputs($leftInput, $rightInput);
+                
+                if (!validatedInputs) {
+                    showError('Error :(');
+                    return;
+                }
+                
+                var operator = $operatorSelect.val();
+                var operations = $submitBtn.data('operations');
+                
+                if ($.inArray(operator, ['/', '%']) !== -1 && validatedInputs.right === 0) {
+                    showError("It's over 9000!");
+                    return;
+                }
+                
+                var result = operations[operator](validatedInputs.left, validatedInputs.right);
+                showResult(result);
+            }
+            
+            function remindMe() {
+                $(window).queue('reminder', function() {
+                    alert('Please, use me...');
+                    console.log('Please, use me...');
+                    $(this).dequeue('reminder');
+                });
+                $(window).dequeue('reminder');
+            }
+            
+            $submitBtn
+                .data('reminderInterval', setInterval(remindMe, 30000))
+                .on('click.calculator', calculate);
+            
+            $(window).on('beforeunload', function() {
+                clearInterval($submitBtn.data('reminderInterval'));
+            });
+        });
+    </script>
+</body>
+</html>

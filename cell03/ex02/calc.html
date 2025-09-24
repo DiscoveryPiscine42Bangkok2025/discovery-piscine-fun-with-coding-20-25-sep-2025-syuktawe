@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 50px;
+            background-color: lightgray;
+        }
+        
+        table {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid black;
+        }
+        
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+        
+        select {
+            padding: 5px;
+            margin: 5px;
+        }
+        
+        #submitBtn {
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculator</h1>
+    
+    <table>
+        <tr>
+            <td>Left Number:</td>
+            <td><input type="text" id="left"></td>
+        </tr>
+        <tr>
+            <td>Operator:</td>
+            <td>
+                <select id="operator">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                    <option value="%">%</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Right Number:</td>
+            <td><input type="text" id="right"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Try me!" id="submitBtn"></td>
+        </tr>
+    </table>
+
+    <script>
+        function calculate() {
+            var left = document.getElementById('left').value;
+            var right = document.getElementById('right').value;
+            var operator = document.getElementById('operator').value;
+            
+            var leftNum = parseInt(left);
+            var rightNum = parseInt(right);
+            
+            if (isNaN(leftNum) || isNaN(rightNum) || leftNum < 0 || rightNum < 0) {
+                alert('Error :(');
+                console.log('Error :(');
+                return;
+            }
+            
+            if ((operator == '/' || operator == '%') && rightNum == 0) {
+                alert("It's over 9000!");
+                console.log("It's over 9000!");
+                return;
+            }
+            
+            var result;
+            if (operator == '+') {
+                result = leftNum + rightNum;
+            } else if (operator == '-') {
+                result = leftNum - rightNum;
+            } else if (operator == '*') {
+                result = leftNum * rightNum;
+            } else if (operator == '/') {
+                result = leftNum / rightNum;
+            } else if (operator == '%') {
+                result = leftNum % rightNum;
+            }
+            
+            alert('Result: ' + result);
+            console.log('Result: ' + result);
+        }
+        
+        function remindMe() {
+            alert('Please, use me...');
+            console.log('Please, use me...');
+        }
+        
+        document.getElementById('submitBtn').onclick = calculate;
+        setInterval(remindMe, 30000);
+    </script>
+</body>
+</html>

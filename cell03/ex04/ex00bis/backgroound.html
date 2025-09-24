@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change Background</title>
+    <link rel="stylesheet" href="backgroound.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Click the button to change background color!</h1>
+    <button id="changeBtn">Change Background</button>
+
+    <script>
+        $(document).ready(function() {
+            $('#changeBtn').click(function() {
+                var red = Math.floor(Math.random() * 256);
+                var green = Math.floor(Math.random() * 256);
+                var blue = Math.floor(Math.random() * 256);
+                
+                $('body').css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
+            });
+        });
+    </script>
+</body>
+</html>
