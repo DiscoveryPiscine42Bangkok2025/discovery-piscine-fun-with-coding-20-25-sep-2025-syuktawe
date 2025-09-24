@@ -1,0 +1,4 @@
+echo "Z" > z
+vim z
+Z
+
