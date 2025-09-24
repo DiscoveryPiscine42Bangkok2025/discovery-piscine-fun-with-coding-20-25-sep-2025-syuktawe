@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto; /* ให้ช่องปรับขนาดอัตโนมัติ */
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+/* เมื่อจอเล็กลง */
+@media (max-width: 600px) {
+  th, td {
+    padding: 4px;
+    font-size: 12px;
+  }
+}
